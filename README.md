@@ -10,9 +10,7 @@ git clone https://github.com/liavaldetaro/3d_dosimeter.git
 You can modify/create files directly in Github, but it is possible to do so from your local system and commit the changes from terminal, take a look at:
 https://guides.github.com/activities/hello-world/
 
-Please, always remeber to first update the changes to the branch FEATURE. This is for safety, as FEATURE
-
-
+Github is structured so that there is a main branch called MASTER that is the up to date version of the source code. For safety, $\textit{never}$
 
 
 
