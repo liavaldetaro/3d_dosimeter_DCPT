@@ -5,6 +5,7 @@
 
 Welcome to 3D Dosimeter's documentation!
 ========================================
+.. image:: drawing.png
 
 .. toctree::
    :maxdepth: 2
