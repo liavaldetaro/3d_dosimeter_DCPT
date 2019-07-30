@@ -9,15 +9,16 @@ Welcome to 3D Dosimeter's documentation!
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+   
+   guide-intro.rst
 
 
 
 Indices and tables
 ==================
-
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-* :ref:`search`
+
 
 
