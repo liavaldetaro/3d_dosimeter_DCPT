@@ -10,3 +10,11 @@ When particles move through matter, their path is inherently random. Therefore, 
 This can be done by doing Monte Carlo simulations. The task is greatly simplified by utilizing Topas; a Toolkit that wraps around Geant4:
 http://www.topasmc.org
 
+==========================
+Phase-space representation
+==========================
+
+.. image:: PhaseSpace1.eps
+.. image:: PhaseSpace2.eps
+
+
