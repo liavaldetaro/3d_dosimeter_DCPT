@@ -57,7 +57,8 @@ Reference Dosimetry
 --------------------
 The primary instrument to measure absorbed dose to medium are Calorimeters. The energy deposition in the medium is quantified by measuring the increase in temperature (given that there are no other types of energy storage - i.e. chemical changes). These dosimeters have only been realized as point detectors, due to their low sensitivity and spatial resolution, and long acquisition times.
 
-In particle therapy, the most commonly used detectors are air-filled ionization chambers. Dose to air can be, in principle, be derived directly from the ionization in the cavity, and dose to water or dose to medium can be found by applying the Bragg-Gray cavity theory. However, this is not possible, given the relatively large uncertainty in the volume to commercial ionization chambers, so they require calibrations against primary standards.
+In particle therapy, the most commonly used detectors are air-filled ionization chambers. Dose to air can, in principle, be derived directly from the ionization in the cavity, and dose to water or dose to medium can be found by applying the Bragg-Gray cavity theory. However, this is not possible, given the relatively large uncertainty in the volume to commercial ionization chambers, so they require calibrations against primary standards.
+
 
 
 
