@@ -14,7 +14,7 @@ http://www.topasmc.org
 Phase-space representation
 ==========================
 
-.. image:: PhaseSpace1.eps
-.. image:: PhaseSpace2.eps
+.. image:: PhaseSpace1.svg
+.. image:: PhaseSpace2.svg
 
 
