@@ -14,6 +14,7 @@ Welcome to 3D Dosimeter's documentation!
    guide-intro.rst
    guide-topas.rst
    guide-dosimetry.rst
+   guide-csharp.rst
 
 
 
