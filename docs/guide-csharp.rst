@@ -1,8 +1,8 @@
-***************************
+********************************
 C# for dosimetry: General notes
-***************************
+********************************
 
-Creating scripts that interact with the program *Eclipse* can lighten the burden when dealing with a large amount of data.
+Creating scripts that interact with the program *Eclipse* can lighten the burden when dealing with a large amount of data, as well as provide new applications to the available treatment plan. A nice tutorial an be found in https://csharp.net-tutorials.com/
 
 The following example shows a simple *console application* written in C#::
 
