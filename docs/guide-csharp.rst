@@ -6,4 +6,5 @@ Creating scripts that interact with the program Eclipse can lighten the burden w
 
 See following example::
 
-   $a = 'b';
+   $a = 'b';\\
+   Console.WriteLine();
