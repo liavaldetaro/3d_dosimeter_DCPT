@@ -47,7 +47,7 @@ Note the precise amount
 ========================================
 Measuring Chloroform
 ========================================
-.. image:: IMG_20190925_153332.pdf
+.. image:: IMG_20190925_153332.eps
 
 This is the potentially dangerous part, be careful when doin it and remember to turn on the fumehood. Apply as much Chloroform as needed and make sure you spray it all over the LMG in the buttom of the container. Also make sure to that it has dissolved ALL the LMG before porceeding. 
 For smaller batche it can evaporate completely before you can dissolve the LMG completely and get the Silicone in. Then apply the amount again and hurry up to the scale.
