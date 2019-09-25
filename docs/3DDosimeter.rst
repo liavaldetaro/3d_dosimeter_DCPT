@@ -1,11 +1,11 @@
-\chapter{Casting Radiochromic Dosimeter}
+Casting Radiochromic Dosimeter
+========================================
 The reipe for the radiochromic dosimeter with Leuco Malachite Green (LMG) is as follows, written in the order of adding the ingredients:
-\begin{itemize}
-	\item LMG \\
-	\item Chloroform \\
-	\item Silicone Elastomer - Sylgard 184 \\
-	\item Curing Agent
-\end{itemize}
+	*LMG 
+	*Chloroform 
+	*Silicone Elastomer - Sylgard 184 
+	*Curing Agent
+
 
 The excact measures of which can be found from the matlab-scrip \textit{lmg026.m} or \textit{lmg.m}. \textit{lmg026.m} has a fixed ratio for all ingredients and uses $0.26\%$ LMG,  $1.5\%$ Chloroform and and $5\%$ Curing Agent, all by weight.\\ \\
 
