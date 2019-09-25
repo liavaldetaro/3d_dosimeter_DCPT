@@ -38,6 +38,7 @@ To ease the process and reduce stress, make a complete setup before starting to 
 ========================================
 Measuring LMG
 ========================================
+.. image:: IMG_20190925_152647.jpg
 
 LMG is meausured on a milligram-scale preferably to a precision of 3 digits or better. Do this first as the Chloroform needed to dissolve it evaporates fast and can potentially knock you out. The lab-superintendent dislikes uncosious people lying around. 
 It is good practice to cover up the container with tinfoil in order minimize light pollution as LMG is highly light sensitive. This includes construction a cover of sorts as you do need some light to see whats goin on at times. Don't try to do this in complete darkness either. 
@@ -46,6 +47,7 @@ Note the precise amount
 ========================================
 Measuring Chloroform
 ========================================
+.. image:: IMG_20190925_153332.pdf
 
 This is the potentially dangerous part, be careful when doin it and remember to turn on the fumehood. Apply as much Chloroform as needed and make sure you spray it all over the LMG in the buttom of the container. Also make sure to that it has dissolved ALL the LMG before porceeding. 
 For smaller batche it can evaporate completely before you can dissolve the LMG completely and get the Silicone in. Then apply the amount again and hurry up to the scale.
@@ -53,6 +55,7 @@ For smaller batche it can evaporate completely before you can dissolve the LMG c
 ========================================
 Measuring Silicone Elastomer
 ========================================
+.. image:: IMG_20190925_153704.jpg
 
 This is sometimes tricky as the silicone is highly viscous, but pour slowly and when you get to withing 30 g or so of you target, the tip the container back and start "showeling" out the silicone using a spatula.
 Note the precise amount
@@ -62,14 +65,14 @@ DO NOT MEASURE CURING AGENT BEFORE THIS HAS BEEN MIXED
 ========================================
 Mixing before adding Curing Agent
 ========================================
-
+.. image:: IMG_20190925_154127.jpg
 Now go to the stirrer and set it to about 500 RPM, to many RPM is unnecessary and might oxidize the LMG too much. Don't mix it for too long, just make sure it has been mixed good. About 2-3 minutes should be fine. 
 Make sure not to hit the sides of the container with the propeller too much as it can shred small pieces of plastic of in to dosimeter. We don not want that.
 
 ========================================
 Adding Curing agent
 ========================================
-
+.. image:: IMG_20190925_154624.jpg
 Now add curing agent and stop maybe 10 g before target. Use pipette to get the rest. 
 It should be noted that you cannot subtract any Curing Agent or Silicone credibly without compromising the recipe.  
 Note the precise amount.
@@ -79,6 +82,7 @@ Now mix again, this time a bit more thoruogh though.
 ========================================
 Dessicate mixture
 ========================================
+.. image:: IMG_20190925_155638.jpg
 
 Now comes the prolonged and potentially tricky part, you need to dessicate, i.e. pull out all air of the mixture. This is far from trivial. 
 First place the container in the dessicator, put the lid on and turn the vacuum pump on. Listen carefully, if the pitch of the pump goes up, the dessicator is airtight, if not try to adjust the connecting pipe from the pump to the dessicator. You know it works it the pitch goes up.
