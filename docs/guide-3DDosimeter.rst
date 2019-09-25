@@ -1,6 +1,8 @@
+*****************************************
 Casting Radiochromic Dosimeter
-========================================
-The reipe for the three dimensional radiochromic dosimeter with Leuco Malachite Green (LMG) is as follows, written in the order of adding the ingredients:
+*****************************************
+
+The recipe for the three dimensional radiochromic dosimeter with Leuco Malachite Green (LMG) is as follows, written in the order of adding the ingredients:
 
 * LMG 
 * Chloroform 
@@ -17,6 +19,7 @@ The reason for this is that glass beakers cannot be cleaned proporly for silicon
 
 Casting in the evening or at night minimizes light pollution. 
 
+========================================
 Setup
 ========================================
 To ease the process and reduce stress, make a complete setup before starting to measure. This will include the following steps (plus any you might think would improve the procedure):
@@ -32,6 +35,7 @@ To ease the process and reduce stress, make a complete setup before starting to 
 * Have spatulas and disposable pipette ready for precise measurement of the Silicone and Curing agent.
 * Make sure that both the stirrer and dessicator are working properly.
 
+========================================
 Measuring LMG
 ========================================
 
@@ -39,11 +43,14 @@ LMG is meausured on a milligram-scale preferably to a precision of 3 digits or b
 It is good practice to cover up the container with tinfoil in order minimize light pollution as LMG is highly light sensitive. This includes construction a cover of sorts as you do need some light to see whats goin on at times. Don't try to do this in complete darkness either. 
 Note the precise amount
 
+========================================
 Measuring Chloroform
 ========================================
+
 This is the potentially dangerous part, be careful when doin it and remember to turn on the fumehood. Apply as much Chloroform as needed and make sure you spray it all over the LMG in the buttom of the container. Also make sure to that it has dissolved ALL the LMG before porceeding. 
 For smaller batche it can evaporate completely before you can dissolve the LMG completely and get the Silicone in. Then apply the amount again and hurry up to the scale.
 
+========================================
 Measuring Silicone Elastomer
 ========================================
 
@@ -52,12 +59,14 @@ Note the precise amount
 
 DO NOT MEASURE CURING AGENT BEFORE THIS HAS BEEN MIXED 
 
+========================================
 Mixing before adding Curing Agent
 ========================================
 
 Now go to the stirrer and set it to about 500 RPM, to many RPM is unnecessary and might oxidize the LMG too much. Don't mix it for too long, just make sure it has been mixed good. About 2-3 minutes should be fine. 
 Make sure not to hit the sides of the container with the propeller too much as it can shred small pieces of plastic of in to dosimeter. We don not want that.
 
+========================================
 Adding Curing agent
 ========================================
 
@@ -67,6 +76,7 @@ Note the precise amount.
 
 Now mix again, this time a bit more thoruogh though.
 
+========================================
 Dessicate mixture
 ========================================
 
@@ -76,6 +86,7 @@ When the mixture has been in the dessicator for a few minutes, foam will start t
 To make the foam receede, ease the pressure using the valve on the dessicater. BE CAREFULL. If you release it too fast, a jet of air will shoot into the container and splash it all over the dessicator. Instead, ease it slowly by nudging it left to right and slightly upwards. 
 This process should be repeated until the mixture appears completely clear after the pressure has been released. Expect at least half an hour for larger samples. in the beginning this should be done at regular intervals, but later the foam will form slower. Cover the dessicator with tin-foil to minimize light pollution.
 
+========================================
 Casting
 ========================================
 
