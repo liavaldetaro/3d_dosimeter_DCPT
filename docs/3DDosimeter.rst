@@ -1,31 +1,35 @@
 Casting Radiochromic Dosimeter
 ========================================
-The reipe for the radiochromic dosimeter with Leuco Malachite Green (LMG) is as follows, written in the order of adding the ingredients:
+The reipe for the three dimensional radiochromic dosimeter with Leuco Malachite Green (LMG) is as follows, written in the order of adding the ingredients:
 
 * LMG 
 * Chloroform 
 * Silicone Elastomer - Sylgard 184 
 * Curing Agent
 
-The excact measures of which can be found from the matlab-scrip *lmg026.m* or *lmg.m*. *lmg026.m* has a fixed ratio for all ingredients and uses 0.26\% LMG,  1.5\% Chloroform and and 5\% Curing Agent, all by weight.
+The excact measures of which can be found from the matlab-scrip *lmg026.m* or *lmg.m* (can be found here **LINK!!**). *lmg026.m* has a fixed ratio for all ingredients and uses 0.26\% LMG,  1.5\% Chloroform and and 5\% Curing Agent, all by weight.
 
-When starting a castiong project it is a good idea to have a container that is larger than the amount of dosimeter that you need. The reason for this will become apparent later. this container should be somewhat transparent to make is easier to see whats going on in it. important: **SILICONE SHOULD UNDER NO CIRCUMSTANCES BE PREPARED IN REGULAR LAB-BEAKERS. USE DISPOSABLE CONTAINERS INSTEAD**. The reason for this is that glass beakers cannot be cleaned proporly for silicone and are essentially ruined.
+When starting a castiong project it is a good idea to have a container that is larger than the amount of dosimeter that you need. The reason for this will become apparent later. this container should be somewhat transparent to make is easier to see whats going on in it. 
 
-Casting in the evenin or at night minimizes light pollution. 
+Important: **SILICONE SHOULD UNDER NO CIRCUMSTANCES BE PREPARED IN REGULAR LAB-BEAKERS. USE DISPOSABLE CONTAINERS INSTEAD.**
+
+The reason for this is that glass beakers cannot be cleaned proporly for silicone and are essentially ruined.
+
+Casting in the evening or at night minimizes light pollution. 
 
 Setup
 ========================================
-To ease the process and reduce stress, make a complete setup before starting to measure. This will include the following steps plus any you might think would improve the procedure:
+To ease the process and reduce stress, make a complete setup before starting to measure. This will include the following steps (plus any you might think would improve the procedure):
 
-* Setup and calibrate the scale to measure the LMG.    
+* Setup and calibrate the high precision scale to measure the LMG.    
 * Make sure to dim the lights in that room as much as possible.
 * Do not open the lid of the LMG-container before you start to measure, to avoid oxidation.
 * Make sure special spatulas are available that help measuring more precisely.
-* Setup the measuring of Chloroform under a fumehood. This is important as it should be considered illigal and dangerous not to do it under a fumehood. Consult the Lab-superintendent if in doubt, he will confirm this. 
+* Setup the measuring of Chloroform under a fumehood. This is important as it is highly toxic and should under no circumstances enter a persons airways. The safety and documentation on SIGMA ALDRICH should always be consulted before using any chemical and if in doubt also consult the Lab-superintendent. 
 * Set the pippette for measuring the Chloroform to the needed amount. As it has a micro-liter scale, you might want to set it at a tenth or even twentieth of the amount, then measure as many times to get the correct amount.
-* Get the Silicone ang curing agent ready at the scale used to measure them. place containers on a peice(s) of paper to avoid spill on table.
-* Use a screwdriver or a pair of plyers to get the lid of the Silicone open. be carefull, it can cut you bad. 
-* have spatulas and disposable pipette ready for precise measurement of Silicone and Curing agent.
+* Get the Silicone curing agent ready at the scale used to measure them. Place the containers on a piece(s) of paper to avoid spilling on the table.
+* Use a screwdriver or a pair of plyers to get the lid of the Silicone open. **Be carefull**, it can cut you bad. 
+* Have spatulas and disposable pipette ready for precise measurement of the Silicone and Curing agent.
 * Make sure that both the stirrer and dessicator are working properly.
 
 Measuring LMG
