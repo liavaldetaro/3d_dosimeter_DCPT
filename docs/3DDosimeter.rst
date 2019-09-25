@@ -7,9 +7,9 @@ The reipe for the radiochromic dosimeter with Leuco Malachite Green (LMG) is as 
 * Silicone Elastomer - Sylgard 184 
 * Curing Agent
 
-The excact measures of which can be found from the matlab-scrip \textit{lmg026.m} or \textit{lmg.m}. \textit{lmg026.m} has a fixed ratio for all ingredients and uses $0.26\%$ LMG,  $1.5\%$ Chloroform and and $5\%$ Curing Agent, all by weight.
+The excact measures of which can be found from the matlab-scrip *lmg026.m* or *lmg.m*. *lmg026.m* has a fixed ratio for all ingredients and uses 0.26\% LMG,  1.5\% Chloroform and and 5\% Curing Agent, all by weight.
 
-When starting a castiong project it is a good idea to have a container that is larger than the amount of dosimeter that you need. The reason for this will become apparent later. this container should be somewhat transparent to make is easier to see whats going on in it. important: \textbf{SILICONE SHOULD UNDER NO CIRCUMSTANCES BE PREPARED IN REGULAR LAB-BEAKERS. USE DISPOSABLE CONTAINERS INSTEAD}. The reason for this is that glass beakers cannot be cleaned proporly for silicone and are essentially ruined.
+When starting a castiong project it is a good idea to have a container that is larger than the amount of dosimeter that you need. The reason for this will become apparent later. this container should be somewhat transparent to make is easier to see whats going on in it. important: **SILICONE SHOULD UNDER NO CIRCUMSTANCES BE PREPARED IN REGULAR LAB-BEAKERS. USE DISPOSABLE CONTAINERS INSTEAD**. The reason for this is that glass beakers cannot be cleaned proporly for silicone and are essentially ruined.
 
 Casting in the evenin or at night minimizes light pollution. 
 
@@ -54,7 +54,7 @@ Mixing before adding Curing Agent
 Now go to the stirrer and set it to about 500 RPM, to many RPM is unnecessary and might oxidize the LMG too much. Don't mix it for too long, just make sure it has been mixed good. About 2-3 minutes should be fine. 
 Make sure not to hit the sides of the container with the propeller too much as it can shred small pieces of plastic of in to dosimeter. We don not want that.
 
-section{Adding Curing agent
+Adding Curing agent
 ========================================
 
 Now add curing agent and stop maybe 10 g before target. Use pipette to get the rest. 
