@@ -96,5 +96,5 @@ This process should be repeated until the mixture appears completely clear after
 Casting
 ========================================
 
-Pour the mixed dosimeter into your mold of choice. do it fast rather than slow (obviously not too fast) to minimize the forming of bubbles. This cannot be completelu avoided, but they will usually go away before the dosimeter hardens.
+Pour the mixed dosimeter into your mold of choice. do it fast rather than slow (obviously not too fast) to minimize the forming of bubbles. This cannot be completely avoided, but they will usually go away before the dosimeter hardens.
 Keep the mold in a dark place for at least 24 hours.
