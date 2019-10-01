@@ -8,7 +8,7 @@
 % a horizontal fashion. The range will be automatic  between the
 % highest and the lowest value of the matrix
 %
-% Dosimetry AU - 2019 by Janus Kramer Møller
+% Dosimetry AU - 2019 by Janus Kramer MÃ¸ller
 % For questions or problems, e-mail: au521597@post.au.dk
 
 function displayscan(Matrix,trans, sag, cor)
