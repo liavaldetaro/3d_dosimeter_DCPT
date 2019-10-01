@@ -9,7 +9,7 @@ The recipe for the three dimensional radiochromic dosimeter with Leuco Malachite
 * Silicone Elastomer - Sylgard 184 
 * Curing Agent
 
-The excact measures of which can be found from the matlab-scrip *lmg026.m* or *lmg.m* (can be found here **LINK!!**). *lmg026.m* has a fixed ratio for all ingredients and uses 0.26\% LMG,  1.5\% Chloroform and and 5\% Curing Agent, all by weight.
+The excact measures of which can be found from the matlab-scrip *lmg026.m* or *lmg.m* (can be found here [here](https://github.com/liavaldetaro/3d_dosimeter_DCPT/tree/master/matlabScripts)**LINK!!**). *lmg026.m* has a fixed ratio for all ingredients and uses 0.26\% LMG,  1.5\% Chloroform and and 5\% Curing Agent, all by weight.
 
 When starting a castiong project it is a good idea to have a container that is larger than the amount of dosimeter that you need. The reason for this will become apparent later. this container should be somewhat transparent to make is easier to see whats going on in it. 
 
