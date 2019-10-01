@@ -5,7 +5,7 @@
 % curing_agent : the percentage of Curing Agent. If you want 5% then write
 %                5, NOT 0.05
 %
-% Dosimetry AU - 2019 by Janus Kramer Møller
+% Dosimetry AU - 2019 by Janus Kramer MÃ¸ller
 % For questions or problems, e-mail: au521597@post.au.dk
 
 
