@@ -11,7 +11,7 @@
 % vff-file, then for the name of the .mat-file and where it should be
 % placed.
 %
-% Dosimetry AU - 2019 by Janus Kramer Møller
+% Dosimetry AU - 2019 by Janus Kramer MÃ¸ller
 % For questions or problems, e-mail: au521597@post.au.dk
 
 function vff2matlab()
