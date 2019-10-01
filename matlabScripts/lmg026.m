@@ -3,7 +3,7 @@
 % - the recipe will be written out in the command window
 % - ingredients are calculated to a measurable format i.e. grams and mL
 %
-% Dosimetry AU - 2019 by Janus Kramer Møller
+% Dosimetry AU - 2019 by Janus Kramer MÃ¸ller
 % For questions or problems, e-mail: au521597@post.au.dk
 
 function lmg026(v)
