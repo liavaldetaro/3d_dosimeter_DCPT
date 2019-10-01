@@ -7,7 +7,7 @@
 %   format
 %
 %
-% Dosimetry AU - 2019 by Janus Kramer Møller
+% Dosimetry AU - 2019 by Janus Kramer MÃ¸ller
 % For questions or problems, e-mail: au521597@post.au.dk
 
 function deviation(v, LMG, SE, CA)
