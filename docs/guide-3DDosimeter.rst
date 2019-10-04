@@ -98,3 +98,18 @@ Casting
 
 Pour the mixed dosimeter into your mold of choice. do it fast rather than slow (obviously not too fast) to minimize the forming of bubbles. This cannot be completely avoided, but they will usually go away before the dosimeter hardens.
 Keep the mold in a dark place for at least 24 hours.
+
+
+========================================
+Important notes
+========================================
+
+There are a few important points one needs to follow to ensure the best possible results:
+
+    - 1) **Always** adjust the refraction index of the liquid in the CT-scan, otherwise the fresnel effects will lead the edges useless (and we want to study the surface effects of the dosimeter as well)!
+    - 2) Make sure to use **the same** side of the dosimeter up. You can do a small indentation on the top (but don't use permanet marker! It will dissolve in the CT scan liquid). For the small dosimeters, you can use the black box with numbered containers.
+    - 3) Make sure that the claw that holds the small dosimeters is not wobbling (it does that quite often)
+    - 4) When doing the post-scan, make sure to align the dosimeter properly!  Check the alignment with the Projection tool (image bellow)
+
+
+.. image:: RadioDos.jpg
