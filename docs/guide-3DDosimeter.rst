@@ -96,9 +96,19 @@ This process should be repeated until the mixture appears completely clear after
 Casting
 ========================================
 
+IMPORTANT: Use lubrication in the dosimeter forms, before poring any of the mixture into the forms.
+
 Pour the mixed dosimeter into your mold of choice. do it fast rather than slow (obviously not too fast) to minimize the forming of bubbles. This cannot be completely avoided, but they will usually go away before the dosimeter hardens.
 Keep the mold in a dark place for at least 24 hours.
 
+
+========================================
+Scanning - Optical CT
+========================================
+
+Before irradiation a reference scan must be made to have the baseline the absorption coefficients in the dosimeter. For each dosimeter geometry available a clamp for the optical CT scanner is made. The dosimeters can be attached to this clamp. Mark the end of the dosimeter, which is going to be attached, in order to tell them apart. The attachment should be done with care, so the dosimeter surface is flat with the clamp surface. This makes it easier to reproduce the measurement. 
+
+When doin the data can the "Projection viewer" feature can be use to see if the current alignment corresponds to the previous aligment from the reference scan. In this way one optimise the uncertainties from the dosimeters position between the reference and data scan.  
 
 ========================================
 Important notes
