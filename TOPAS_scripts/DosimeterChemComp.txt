@@ -1,0 +1,9 @@
+# defines the chemical composition of the dosimeter
+
+sv:Ma/FlexDos/Components	= 6 "Hydrogen" "Carbon" "Nitrogen" "Oxygen" "Silicon" "Chlorine"
+uv:Ma/FlexDos/Fractions		= 6 0.0806 0.3223 0.0002 0.2114 0.3721 0.0134
+d:Ma/FlexDos/Density		= 1.05 g/cm3
+
+
+
+
