@@ -1,0 +1,358 @@
+---
+title: "Technical note: Amorphous track model with Libamtrack"
+author: Lia Valdetaro
+date: 4/13/20
+output: html_notebook
+---
+```{R}
+library(libamtrack)
+require(lattice)
+```
+## Introduction
+We can describe the dosimeter in the framework of Katz's track structure theory as consisting of initially inactive targets, which become activated after one or many hits \cite{katz1978track}. The ionizing radiation traveling through the radiochromic dosimeter produces a local concentration of free radicals along its path; these are mostly originated from the chloroform, although a small percentage may come from free silicone elastometer chains \cite{ellenmarie2}.\par
+A detector system consists of a sensitive spherical active element (targets), embedded in a passive matrix. Radiation can inactivate targets if at least a certain number of hits occur (a hit is an event in which an energy larger or equal the minimum required energy $E_{min}$ is deposited in the target). Considering that the assumption of Poisson distributed hits is correct, the probability of exactly $n$ hits after an applied dose of D is
+\begin{equation}
+	P(n) = \frac{(vD)^n e^{-vD}}{n!},
+\end{equation}
+where $vD$ is the average number of hits, and $v$ is the target volume measured in hits per gray. \par
+Multi-hit detectors are those whose targets requine $n$ hits to be activated; targets with $n-1$ or less hits are not affected. If $N$ is the number of affected targets and $N_0$ the total number of tagets, we can express the fraction of affected targets as the sum over all targets receiving less than $n$ hits:
+\begin{equation}
+	\frac{N(D)}{N_0} = 1- e^{-vD}\sum_{k=0}^{n-1}\frac{(vD)^k}{k!}.
+\end{equation}
+Generalizing from multi-hit to multi-target detectors (effect occurs if $m$ targets receive at least $n$ hits), we have
+\begin{equation}\label{eq7}
+	\frac{N(D)}{N_0} =\bigg(1- e^{-vD}\sum_{k=0}^{n-1}\frac{(vD)^k}{k!}\bigg)^m.
+\end{equation}
+Multi-hit detectors have supra-linear dose response, which in particle beams can lead to a relative effectiveness larger than unity.Multitarget detectors can potentially mimic the response of cells.
+
+## Track structure calculations - libamtrack code
+### Dosimeter gamma response
+It is reasonable to assume that the detector response will be directly proportional to the number of hits. Therefore, given a maximum response $OD_\textrm{max}$, for a one-hit detector, we find:
+\begin{equation}\label{eq8}
+	P_1 = 1-e^{-D/D_1},
+\end{equation}
+and for a two-hit detector:
+\begin{equation}\label{eq9}
+	P_2 = 1-\bigg(1+\frac{D}{D_2}\bigg)e^{-D/D_2}.
+\end{equation}
+To find in which category the detector falls into, we look into its saturation curve with $\gamma$-irradiation; neither of the curves above completely match the correct behavior at all doses; equation \ref{eq8} is linear at low and sub-linear at high doses, while equation \ref{eq9} follows a sigmoid at low and is supra-linear at high doses. Rather, it is a mixture of both one- and two-hit detectors:
+\begin{equation}\label{eq10}
+	\frac{OD_\gamma(D)}{OD_\gamma^\textrm{max}} = r P_1 + (1-r)P_2,
+\end{equation}
+where $r$ is the fraction that the one-hit component contributes. The parametrization of $(OD_\gamma^\textrm{max}, \, r, \,E_1, \,E_2)$ is found by fitting the equation above to the data points, using the generalized hit/target model with $n=1, \,m=1$ and $n=2, \, m=1$.
+
+
+```{python, warning=FALSE}
+import numpy as np
+import matplotlib.pyplot as plt
+import math
+from scipy.optimize import curve_fit
+
+def dummy_model():
+    # generates the data points from EM parametrization - temporary
+    a = 3.61
+    b = 0.38
+    c = 2.5 * 10 ** 3
+    d = 2.1 * 10 ** 6
+
+    curve = np.linspace(0, 10, num=16)
+    supralin = np.linspace(0, 10, num=16)
+    i = 0
+    D = 10
+    D0 = a * (b * (1 - math.exp(-D / c)) + (1 - b) * (1 - math.exp(-D ** 2 / d)))
+    d_array = np.array([20, 50, 100, 110, 120, 150, 200, 500, 900, 1200, 2000, 2500, 5000, 7000, 10000, 10500])
+    for D in d_array:
+        y = a * (b * (1 - math.exp(-D / c)) + (1 - b) * (1 - math.exp(-D ** 2 / d)))
+        curve[i] = y
+        supralin[i] = y / (D0 / 10) / D
+        i = i + 1
+
+    return curve, d_array
+
+
+def saturation_fit(x, a, b, c, d):
+    return np.log(a * (b * (1 - np.exp(-np.divide(x, c))) + (1 - b) * (1 - (1 + x / d) * np.exp(-np.divide(x, d)))))
+
+
+def main():
+    data_points, dose = dummy_model()  # gamma saturation curve
+    popt, pcov = curve_fit(saturation_fit, dose, np.log(data_points), bounds=([1, 0, 2000, 900],[1000, 1, 3000, 1000]))
+
+
+    print('fit parameters: ', popt)
+
+
+if __name__ == "__main__":
+    main()
+```
+Once we have the parameters from a fit to the experimental data (above), we can set the gamma response curve with libamtrack using the function **AT.gamma.response**. The gamma model chosen (*gamma.model=2*) corresponds to the general hit(target model described in the equations above.
+```{R}
+
+    d.Gy                    <- 10^seq(from = log10(0.1), to = log10(10^5), length.out = 5000)
+    gamma.model		<- 2
+    R			<- 27
+    Smax		<- 3.75
+    k1			<- Smax * (R / 100)
+    k2			<- Smax * (1 - R / 100)
+    gamma.parameter.peak.A	<- c( k1 = k1, D01 = 2.0*10^3, c1 = 1, m1 = 1,
+                                k2 = k2, D02 =9.00*10^2, c2 = 2, m2 = 1, 0)
+
+    vecA <- AT.gamma.response( d.Gy              = d.Gy,
+    			   				gamma.model       = gamma.model,
+    			   				gamma.parameter   = gamma.parameter.peak.A,
+                               	lethal.event.mode = FALSE)$response
+
+    cat(vecA, file = "saturation_curve_OC.txt", append = FALSE, sep = "\t")
+    cat(d.Gy, file = "saturation_curve_Dose.txt", append = FALSE, sep = "\t")
+
+```
+
+```{python, warning=FALSE, echo=FALSE}
+
+import matplotlib.pyplot as plt
+import math
+from scipy.optimize import curve_fit
+
+def dummy_model():
+    # generates the data points from EM parametrization - temporary
+    a = 3.61
+    b = 0.38
+    c = 2.5 * 10 ** 3
+    d = 2.1 * 10 ** 6
+
+    curve = np.linspace(0, 10, num=16)
+    supralin = np.linspace(0, 10, num=16)
+    i = 0
+    D = 10
+    D0 = a * (b * (1 - math.exp(-D / c)) + (1 - b) * (1 - math.exp(-D ** 2 / d)))
+    d_array = np.array([20, 50, 100, 110, 120, 150, 200, 500, 900, 1200, 2000, 2500, 5000, 7000, 10000, 10500])
+    for D in d_array:
+        y = a * (b * (1 - math.exp(-D / c)) + (1 - b) * (1 - math.exp(-D ** 2 / d)))
+        curve[i] = y
+        supralin[i] = y / (D0 / 10) / D
+        i = i + 1
+
+    return curve, d_array
+
+
+def saturation_libamtrack():
+    OC = np.loadtxt(fname="/home/lia/PycharmProjects/test/saturation_curve_OC.txt")
+    dose = np.loadtxt(fname="/home/lia/PycharmProjects/test/saturation_curve_Dose.txt")
+    return OC, dose
+
+
+def main():
+    data_points, dose_1 = dummy_model()  # gamma saturation curve
+    OC, dose = saturation_libamtrack()
+
+    plt.rcParams.update({'font.size': 16})
+    fig, ax = plt.subplots(1, 1)
+    ax.set_yscale('log')
+    ax.set_xscale('log')
+    plt.plot(dose_1, data_points, label='Geiss fit (EM)', linestyle='none', marker='o', alpha=0.8)
+    plt.plot(dose, OC, label='libamtrack')
+    plt.xlabel('Dose [Gy]')
+    plt.ylabel('OD [cm${}^{-1}]$')
+    plt.xlim(9, 100000)
+    plt.ylim(0.001, 10)
+    ax.legend()
+    plt.tight_layout()
+    plt.show()
+
+
+if __name__ == "__main__":
+    main()
+
+```
+
+### Radial dose distribution
+where the $k$ and $\alpha$ coefficients found by fitting to experimental data \cite{katz1978track} or Monte Carlo simulations \cite{geiss1998efficiency}. The model implemented in libamtrack (used in subsection \ref{subsec1}) is based on experimental values found \cite{edmund2007track}.\par
+Rearranging equation \ref{eq2}, we find the energy deposited by an electron passing a distance $dr$:
+\begin{equation}\label{eq4}
+	d\omega = (k^{-1}dr)^{\alpha^{-1}}.
+\end{equation}
+Integrating equation \ref{eq3} over the energy interval $[\omega(r), \omega_{max}]$ and multiplying by the total number of electrons $N_e$, we find the number of electrons $n$ passing a shell of thickness $r$
+\begin{equation}
+	n[\omega(r);\omega_{max}] = 2\pi \frac{N_e e^4}{m_e c^2} \frac{Z_\textrm{eff}^2}{\beta^2}\bigg[\frac{1}{\omega(r)}-\frac{1}{\omega_{max}}\bigg].
+\end{equation}
+Substituting $\omega$ by its corresponding radius, multiplying by the energy deposited by each electron (eq. \ref{eq4}) and dividing by the shell mass ($2\pi \rho  r dr$), we get the deposited dose to a point:
+\begin{equation}\label{eq5}
+\begin{split}
+	D_\delta(r,\beta, Z_\textrm{eff})=& 2\pi \frac{N_e e^4}{m_e c^2} \bigg(\frac{Z_\textrm{eff}}{\beta}\bigg)^2\bigg[\frac{1}{r^{\alpha^{-1}}}-\frac{1}{r_{max}^{\alpha^{-1}}}\bigg] k^{\alpha ^{-1}}\times \frac{(k^{-1} dr)^{\alpha^{-1}}}{2\pi \rho r dr}\\
+	&= \frac{N_e e^4}{m_e c^2} \bigg(\frac{Z_\textrm{eff}}{\beta}\bigg)^2\bigg[\frac{1}{r^{\alpha^{-1}}}-\frac{1}{r_{max}^{\alpha^{-1}}}\bigg] \times \frac{1}{\alpha}\cdot\frac{1}{\rho}\cdot \frac{r^{\alpha^{-1}}}{r} \\
+	& = \frac{N_e e^4}{m_e c^2} \bigg(\frac{Z_\textrm{eff}}{\beta}\bigg)^2\frac{1}{\alpha\rho r}\bigg[1-\bigg(\frac{r}{r_{max}}\bigg)^{\alpha^{-1}}\bigg]
+\end{split}
+\end{equation}
+The equation above yields the *physical radial dose distribution*. To find the *effective radial dose distribution*, we convoluted the target geometry with the physical dose. As a simplification of an extended target, consider a cylindrical target with radius $a_0$ parallel to the ion trajectory. The area $dA = 2\varphi t dt$ (add image) of a cylinder at a distance $r$ from the ion path receives the same dose, so the average dose to the entire cylinder can be expressed as
+\begin{equation}\label{eq6}
+	\overline{D}_\delta (r, \beta, Z_\textrm{eff}, a_0) = \frac{1}{\pi a_0^2}\int_{r-a_0}^{r+a_0} D_\delta (t, \beta, Z_\textrm{eff}) \cdot A(t, a_0)dt,
+\end{equation}
+where
+\[
+A(t,a_0) =
+\begin{cases}
+4 \arctan \sqrt{\frac{a_0^2 - (r-t)^2}{(r+t)^2-a_0^2}}, \, \text{for $(t+r) \geq a_0$,} \\
+2\pi, \, \text{for $(t+r) \leq a_0$,}
+\end{cases}
+\]
+The integral of the radial dose distribution should yield the stopping force, but there is a significant discrepancy between them. That due to the fact that we disconsidered the interaction of the projectile with nuclei of the medium and the electron's binding energy. This effect is large in the region close to the track. Hansen and Olsen's model adds the missing energy where the distance $r$ from the ion track is smaller than the active element radius $a_0$. Therefore, there is a core with increased dose $D_\textrm{core}$:
+\[
+D(r) =
+\begin{cases}
+D_\textrm{core}, & \text{for $r \leq a_0$,} \\
+\overline{D}_\delta, & \text{for $a_0<r<r_\textrm{max}$,} \\
+0, & \text{for $r > r_\textrm{max}$.} \\
+\end{cases}
+\]
+Where $D_\textrm{core}$ is chosen out of convenience:
+\begin{equation}
+	D_\textrm{core} = S/\rho - 2\pi \int_{a_0}^{r_\textrm{max}} \overline{D}_\delta(r) r dr
+\end{equation}
+Using the function **AT.D.RDD.Gy**, we can calculate the radial dose distribution. For now, an arbitrary value of target size is used ($a_0 = 1 \eta$m). The electron range model (*er.model=3*) follows the parametrization proposed by Edmund (Edmund et al., 2007).
+```{R}
+   df <- expand.grid(E.MeV.u = seq(10, 200, length.out = 3), #10^seq(0, 3, length.out=500)
+                  particle.no = 1001,
+                  r.m = 10^seq(-9, -2, length.out=1000),
+                  material.no = 1,
+                  rdd.model = 4,
+                  rdd.parameter =  1,
+                  er.model = 6,
+                  D.Gy = 0)
+
+    df$particle.name <-  "Protons"
+
+    for (i in 1:nrow(df)){ # Loop through particles/energies
+        df$D.Gy[i]    <-    AT.D.RDD.Gy(     r.m              = df$r.m[i],
+                                             E.MeV.u          = df$E.MeV.u[i],
+                                             particle.no      = df$particle.no[i],
+                                             material.no      = df$material.no[i],
+                                             rdd.model        = df$rdd.model[i],
+                                             rdd.parameter    = c(10e-8, 1e-10),
+                                             er.model         = df$er.model[i],
+                                             stopping.power.source.no = 2 )[[1]]
+
+    }
+
+    cat(df$D.Gy, file = "radial_dose_y.txt", append = FALSE, sep = "\t")
+    cat(df$r.m, file = "radial_dose_x.txt", append = FALSE, sep = "\t")
+```
+
+```{python, warning=FALSE, echo=FALSE}
+
+def main():
+    Dose = np.loadtxt(fname="/home/lia/PycharmProjects/test/radial_dose_y.txt")
+    radius = np.loadtxt(fname="/home/lia/PycharmProjects/test/radial_dose_x.txt")
+    beta = np.loadtxt(fname="/home/lia/PycharmProjects/test/beta.txt")
+    a0 = 10e-8
+
+    Dose_180 = Dose[1::6] * beta[0] * beta[0] * a0*a0
+    Dose_190 = Dose[2::6] * beta[1] * beta[0] * a0*a0
+    Dose_200 = Dose[3::6] * beta[2] * beta[0] * a0*a0
+    Dose_210 = Dose[4::6] * beta[3] * beta[0] * a0*a0
+    Dose_220 = Dose[5::6] * beta[4] * beta[0] * a0*a0
+    #    Dose_230 = Dose[6::6]
+    radius = radius[1::6] / a0
+
+    av = (Dose_180[1] + Dose_190[1] + Dose_200[1] + Dose_210[1] + Dose_220[1]) / 5
+    print(av)
+
+    plt.rcParams.update({'font.size': 16})
+    fig, ax = plt.subplots(1, 1)
+    ax.set_yscale('log')
+    ax.set_xscale('log')
+    plt.plot(radius, Dose_180, label='10 MeV/u')
+    plt.plot(radius, Dose_190, label='48 MeV/u')
+    plt.plot(radius, Dose_200, label='86 MeV/u')
+    plt.plot(radius, Dose_210, label='124 MeV/u')
+    plt.plot(radius, Dose_220, label='162 MeV/u')
+    plt.xlabel('$r/a_0$')
+    plt.axhline(y=av, linestyle='--', color='k')
+    plt.ylabel('$D\\beta^2\\alpha_0^2/z^2$ [gray$\cdot m^2$]')
+    ax.legend()
+    plt.tight_layout()
+    plt.show()
+
+if __name__ == "__main__":
+    main()
+```
+
+### Estimating ATM parameters and relative effectiveness
+To compute the dosimeter response and relative efficiency we will use the libAmTrack implementation of the compound Poison processes and successive convolutions (CSPP_SC). This calculation model was implemented by Greilich *et all* (Greilich, 2013). The general idea of CSPP_SC for calculating spatial disposition of the local dose distribution is to consider a point P, from which we calculate the cumulative distribution function $F(d)$ for a given macroscopic fluence $\phi$ or macroscopic dose D, and $d(r)$ the microscopic pattern around a track. \par
+Considering $r_{max}$ the maximum range of secondary electrons, the point P can only be affected by tracks within a circle of radius $r_{max}$ centered in P. The tracks inside the circle contribute to the local dose d, and the number of tracks is Poisson distributed ($\mu = \phi\cdot \pi r_{max}^2$), and the cumulative single impact distribution is given by
+\begin{equation}
+F_1(d) = 1-\frac{R(d)^2}{r_{max}^2},
+\end{equation}
+where $R(d)$ is the inverse of the radial dose distribution $D(r)$.\par
+For $n$ tracks, the cumulative impact distribution is an n-fold convolution of $F_1$,
+\begin{equation}
+    F_n = F_1*...*F_1, \quad \textrm{n times}.
+\end{equation}
+The distribution for a given *d*, with a Poisson distributed *n* is:
+\begin{equation}
+    F(d) = e^{-\mu} \sum_{i=0}^\infty  \frac{\mu^i}{i!}F_i(d).
+\end{equation}
+The local expected response $\langle s\rangle$ is found from the derivative $f(d)$,
+\begin{equation}
+\langle s\rangle = \int_0^{max(d)}S_X(d)f(d)dd,
+\end{equation}
+where $S_X$ is the local response. CSPP_SC uses successive convolutions to accelerate the calculation of $f(d)$.
+```{R}
+    R			<- 28
+    Smax		<- 3.61
+    k1			<- Smax * (R / 100)
+    k2			<- Smax * (1 - R / 100)
+
+
+df <- expand.grid(E.MeV.u = seq(.8, 20, length.out=100), #10^seq(0, 3, length.out=500)
+                  particle.no = c(1001),
+                  material.no = 1,
+                  rdd.model = 4,
+                  rdd.parameter =  1,
+                  gamma.model   = 2,
+                  gamma.parameters = 1,
+                  er.model = 6,
+                  fluence.cm2.or.dose.Gy = c(1e6)
+                     )
+
+   df$particle.name <-  "Protons"
+    hcp_list =0
+    let=0
+    for (i in 1:nrow(df)){ # Loop through particles/energies
+        result <- AT.run.CPPSC.method(        E.MeV.u          = df$E.MeV.u[i],
+                                  particle.no      = df$particle.no[i],
+                                  material.no      = df$material.no[i],
+                                  fluence.cm2.or.dose.Gy = df$fluence.cm2.or.dose.Gy[i],
+                                  rdd.model        = df$rdd.model[i],
+                                  rdd.parameters   = c(50e-9, 1e-10),
+                                  gamma.model      = df$gamma.parameters[i],
+                                  gamma.parameter  = c( k1 = k1, D01 = 2.031*10^3, c1 = 1, m1 = 1,
+                                                        k2 = k2, D02 =9.24*10^2, c2 = 2, m2 = 1, 0),
+                                  er.model         = df$er.model[i],
+                                  write.output     = TRUE,
+                                               N2 = 10,
+                                               fluence.factor = 1.0,
+                                               shrink.tails = TRUE,
+                                               shrink.tails.under = 1e-30,
+                                               adjust.N2 = TRUE,
+                                               lethal.events.mode = FALSE,
+                                  stopping.power.source.no = 2)
+
+        hcp_list[i] = result[2]
+
+        let_vals <- AT.dose.weighted.LET.MeV.cm2.g( E.MeV.u       = df$E.MeV.u[i],
+                                   particle.no   = c(1001),
+                                   fluence.cm2   = df$fluence.cm2.or.dose.Gy[i],
+                                   material.no   = 1,                   # water
+                                   stopping.power.source.no = 2)
+
+        let[i] = let_vals[1]
+    }
+
+    lattice::xyplot(hcp_list ~ let,
+                   # Plot
+                     df,
+                     type      = 'l',
+                     auto.key  = TRUE)
+
+
+```
