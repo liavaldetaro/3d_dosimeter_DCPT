@@ -16,7 +16,7 @@ Welcome to 3D Dosimeter's documentation!
    guide-dosimetry.rst
    guide-csharp.rst
    guide-3DDosimeter.rst
-
+   atm_calculator.rmd
 
 
 Indices and tables
