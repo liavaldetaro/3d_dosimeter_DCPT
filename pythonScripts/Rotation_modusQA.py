@@ -19,7 +19,7 @@ import imageio
 def warp_reduction(val):
     offset = cuda.warpsize / 2
     while offset > 0:
-        val[0] += cuda.shfl_down_sync(0xffffff, val[0], offset)
+        val[0] += cuda.shfl_down_sync(0xffffffff, val[0], offset)
         offset /= 2
     # for (offset= warpSize/2, offset>0, offset /=2):
 
@@ -135,11 +135,11 @@ def find_match(directory_ref, directory_data):
         comparison[griddim, blockdim](reference_image_dev, moving_image_dev, Diff_dev, N, M)
         cuda.synchronize()
 
-        blockSize = b
-        numBlocks = round((N * M + blockSize - 1) / blockSize)
-        sum_total = 0
-        sum_array_block[numBlocks, blockSize](N * M, Diff, sum_total)
-        cuda.synchronize()
+        #blockSize = b
+        #numBlocks = round((N * M + blockSize - 1) / blockSize)
+        #sum_total = 0
+        #sum_array_block[numBlocks, blockSize](N * M, Diff, sum_total)
+        #cuda.synchronize()
 
         print('runtime: ', timer() - start, 'seconds')
         print(sum_total)
