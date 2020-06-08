@@ -15,35 +15,17 @@ from pathlib import Path
 import imageio
 
 
-@jit
+@cuda.jit(device=True)
 def warp_reduction(val):
     offset = cuda.warpsize / 2
     while offset > 0:
         val[0] += cuda.shfl_down_sync(0xffffffff, val[0], offset)
         offset /= 2
-    # for (offset= warpSize/2, offset>0, offset /=2):
 
 
-@jit
-def sum_array_warp(n, v, sum):
-    index = cuda.blockIdx.x * cuda.blockDim.x + cuda.threadIdx.x
-    stride = cuda.blockDim.x * cuda.gridDim.x
-
-    lane = cuda.threadIdx.x % cuda.warpsize
-    sum_p = 0
-    for i in range(index, n, stride):
-        sum_p += v[i]
-
-    __syncthreads()
-
-    warp_reduction(sum_p)
-
-    if lane == 0:
-        cuda.atomic.add(sum, sum_p)
-
-
-@jit
+@cuda.jit(device=True)
 def block_reduction(sum_p):
+
     s = cuda.shared.array(shape=24, dtype=int)
 
     lane = cuda.threadIdx.x % cuda.warpsize
@@ -52,6 +34,8 @@ def block_reduction(sum_p):
     warp_reduction(sum_p)
 
     cuda.syncthreads()
+
+    print(wid)
 
     if lane == 0:
         s[wid] = sum_p
@@ -79,7 +63,7 @@ def sum_array_block(n, v, sum):
     block_reduction(sum_p)
 
     if cuda.threadIdx.x == 0:
-        cuda.atomic.add(sum, sum_p)
+        cuda.atomic.add(sum, 0, sum_p)
 
 
 @cuda.jit
@@ -129,17 +113,21 @@ def find_match(directory_ref, directory_data):
         griddim = (np.int((N + b - 1) / b), np.int((M + b - 1) / b))
 
         Diff = np.zeros(reference_image_dev.size)
-        Diff_dev = cuda.to_device(Diff)
+        Diff_dev = cuda.device_array(Diff)
         moving_image_dev = cuda.to_device(moving_image.flatten())
         start = timer()
         comparison[griddim, blockdim](reference_image_dev, moving_image_dev, Diff_dev, N, M)
         cuda.synchronize()
 
-        #blockSize = b
-        #numBlocks = round((N * M + blockSize - 1) / blockSize)
-        #sum_total = 0
-        #sum_array_block[numBlocks, blockSize](N * M, Diff, sum_total)
-        #cuda.synchronize()
+        blockSize = b
+        numBlocks = round((N*M  + blockSize - 1) / blockSize)
+        sum_total = np.zeros(1, dtype=np.float64)
+        sum_total_dev = cuda.device_array(sum_total)
+        sum_array_block[numBlocks, blockSize](N * M, Diff, sum_total_dev)
+        cuda.synchronize()
+
+        sum_total_dev.to_host()
+        print(sum_total_dev)
 
         print('runtime: ', timer() - start, 'seconds')
         print(sum_total)
