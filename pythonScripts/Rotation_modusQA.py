@@ -9,11 +9,13 @@ from scipy.optimize import curve_fit
 from scipy.io import loadmat
 from numba import vectorize
 from numba import jit
-from numba import cuda
+from numba import cuda, float64
 from timeit import default_timer as timer
 from pathlib import Path
 import imageio
 
+
+TPB = 24        # NUMBER OF THREADS PER BLOCK
 
 @cuda.jit(device=True)
 def warp_reduction(val):
@@ -26,20 +28,22 @@ def warp_reduction(val):
 @cuda.jit(device=True)
 def block_reduction(sum_p):
 
-    s = cuda.shared.array(shape=24, dtype=int)
+    s = cuda.shared.array(shape=TPB, dtype=float64)
 
     lane = cuda.threadIdx.x % cuda.warpsize
     wid = cuda.threadIdx.x / cuda.warpsize
 
-    warp_reduction(sum_p)
+   # warp_reduction(sum_p)
 
     cuda.syncthreads()
+    #if lane == 0:
+    #    s[wid] = sum_p
 
-    print(wid)
+    #if lane == 0:
+    #    s[wid] = sum_p
 
-    if lane == 0:
-        s[wid] = sum_p
 
+    '''
     if cuda.threadIdx.x < cuda.blockDim.x / cuda.warpsize:
         sum_p = s[lane]
     else:
@@ -47,6 +51,7 @@ def block_reduction(sum_p):
 
     if wid == 0:
         warp_reduction(sum_p)
+    '''
 
 
 @cuda.jit
@@ -60,10 +65,14 @@ def sum_array_block(n, v, sum):
         i += stride
         sum_p += v[i]
 
+
     block_reduction(sum_p)
 
-    if cuda.threadIdx.x == 0:
-        cuda.atomic.add(sum, 0, sum_p)
+
+    #if cuda.threadIdx.x == 0:
+    #    cuda.atomic.add(sum, 0, sum_p)
+
+
 
 
 @cuda.jit
@@ -108,29 +117,29 @@ def find_match(directory_ref, directory_data):
         moving_image = moving_image[np.int(hl1 / 2 - hl1 / 4):np.int(hl1 / 2 + hl1 / 4),
                        np.int(hl2 / 2 - hl2 / 3):np.int(hl2 / 2 + hl2 / 3)] / norm
 
-        b = 24
+        b = TPB
         blockdim = (b, b)
         griddim = (np.int((N + b - 1) / b), np.int((M + b - 1) / b))
 
         Diff = np.zeros(reference_image_dev.size)
-        Diff_dev = cuda.device_array(Diff)
+        Diff_dev = cuda.to_device(Diff)
         moving_image_dev = cuda.to_device(moving_image.flatten())
         start = timer()
         comparison[griddim, blockdim](reference_image_dev, moving_image_dev, Diff_dev, N, M)
         cuda.synchronize()
 
         blockSize = b
-        numBlocks = round((N*M  + blockSize - 1) / blockSize)
+        numBlocks = round((N*M + blockSize - 1) / blockSize)
         sum_total = np.zeros(1, dtype=np.float64)
-        sum_total_dev = cuda.device_array(sum_total)
+        sum_total_dev = cuda.to_device(sum_total)
         sum_array_block[numBlocks, blockSize](N * M, Diff, sum_total_dev)
         cuda.synchronize()
 
-        sum_total_dev.to_host()
-        print(sum_total_dev)
+        #cuda.device_array
+
+        sum_total = sum_total_dev.copy_to_host()
 
         print('runtime: ', timer() - start, 'seconds')
-        print(sum_total)
 
     Diff_dev.to_host()
     Diff = np.reshape(Diff_dev, moving_image.shape)
