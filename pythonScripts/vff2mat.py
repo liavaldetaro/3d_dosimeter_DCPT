@@ -1,3 +1,5 @@
+# Written by Simon Jensen July 2020
+
 import tkinter as tk
 from tkinter import filedialog
 import numpy as np
